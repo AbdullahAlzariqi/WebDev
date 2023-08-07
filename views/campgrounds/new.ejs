@@ -1,0 +1,58 @@
+<% layout('Layout/boilerplate') %>
+    <div class="row">
+        <h1 class="text-center">New Campground</h1>
+        <div class="col-6 offset-3">
+            <form action="/campgrounds" method="POST" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="campground[title]" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="image">Image</label>
+                    <input class="form-control" type="text" id="title" name="campground[image]" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="price">Price</label>
+                    <div class="input-group ">
+                        <span class="input-group-text" id="price-label">$</span>
+                        <input type="number" class="form-control" placeholder="0.00" aria-label="Price"
+                            aria-describedby="price-label" name="campground[price]" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="location">Location</label>
+                    <input class="form-control type=" text" id="location" name="campground[location]" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="decription">Decription</label>
+                    <textarea class="form-control type=" text" id="location" name="campground[description]"
+                        required></textarea>
+                </div>
+                <button class="btn-success">Add Campground</button>
+            </form>
+            <a href="/campgrounds">All Campgrounds</a>
+        </div>
+    </div>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.validated-form')
+
+            // Loop over them and prevent submission
+            Array.from(forms)// This will turn forms into an array
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
