@@ -120,7 +120,7 @@ const validateCampground = (req, res, next) => {
 
 //registeration: /register GET to form --- /register POST to create a new user 
 
-app.get('/', (req, res) => { res.render('home') });
+app.get('/', (req, res) => { res.send(req.user) });
 // app.get('/makeCampground', async (req, res) => {
 //     const camp = new campground({
 //         title: 'My backyard',
@@ -141,7 +141,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen('3000', () => {
-    console.log('Serving on Port 3000dsasd');
+    console.log('Serving on Port 3000');
 });
 
 
