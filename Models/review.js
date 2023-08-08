@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
-
-
+const User = require('./user');
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
-    username: String,
+    author: {
+        type: Schema.Types.ObjectID,
+        ref: 'User'
+    },
     body: String,
     rating: {
         type: Number,
         min: 0,
         max: 5
     },
-    description: String,
-    location: String
 });
 
 module.exports = mongoose.model('Review', reviewSchema);
