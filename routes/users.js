@@ -7,47 +7,27 @@ const passport = require('passport')
 const { storeReturnTo } = require('../middleware');
 // const Review = require('../Models/review');
 // const {  userSchema } = require('../Schemas/schemas.js');
+const users = require('../controllers/users');
 
-router.get('/register', (req, res) => {
-    res.render('users/register')
-})
+router.route('/register')
+    .get(users.renderRegisterForm)
+    .post(AsyncWrapper(users.registerUser));
 
-router.post('/register', AsyncWrapper(async (req, res, next) => {
-    try {
-        const { email, username, password } = req.body;
-        const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'welcome to Yelp Camp!');
-            res.redirect('/campgrounds')
-        })
+// router.get('/register', users.renderRegisterForm)
 
-    } catch (e) {
-        req.flash('error', e.message);
-        res.redirect('/register')
-    }
-}));
+// router.post('/register', AsyncWrapper(users.registerUser));
 
-router.get('/login', (req, res) => {
-    res.render('users/login');
-})
+router.route('/login')
+    .get(users.renderLoginForm)
+    .post(storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.loginUser)
 
-router.post('/login', storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    req.flash('success', 'Welcome Back!!');
-    const redirectUrl = res.locals.returnTo || '/campgrounds';
-    res.redirect(redirectUrl)
-})
+// router.get('/login', (req, res) => {
+//     res.render('users/login');
+// })
 
-router.get('/logout', (req, res, next) => {
-    req.logout(function (err) {
-        if (err) {
-            return next(err);
-        }
-        req.flash('success', 'Goodbye!');
-        res.redirect('/campgrounds');
-    });
-});
+// router.post('/login', storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.loginUser)
+
+router.get('/logout', users.logoutUser);
 
 
 
